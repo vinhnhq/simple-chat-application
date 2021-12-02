@@ -1,34 +1,15 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# simple chat application
 
-## Getting Started
+some notes
 
-First, run the development server:
+- i chose next js for bootstraping because it is very simple as well as well prepared configuration
+- apollo-client for http request
+- linter is combine between default eslint and little prettier
+- for state management, use some internal hooks as reducer as well as context
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- for project structure
+  - common folder will hold everything which are shared on the whole application
+  - graphql folder will take responbility to init graphql object
+  - modules, in the other hand will hold the code which is belonging to it - including its state. in this application is menu, list, and input
+  - for some application state it will be located at highest level to reuse by Context API. in this situation, is use, channel, which will be notified once user select another data
+  - most of components are writing by functional way with logic extract into hooks to easy reuse the logic, upgrade ui as well as testing later
