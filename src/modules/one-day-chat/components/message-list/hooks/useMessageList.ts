@@ -58,7 +58,7 @@ function useMessageList({ currentChannelId }: { currentChannelId: string }) {
   const loadLatest = useCallback(() => fetchLatestMessages(), [fetchLatestMessages]);
 
   const loadMore = useCallback(
-    (old: boolean) => {
+    ({ old }: { old: boolean }) => {
       const { messages } = state;
 
       fetchMoreMessages({

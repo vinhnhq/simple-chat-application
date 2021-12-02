@@ -1,45 +1,50 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 
+import { usePersistentState } from '../../../../../src/common/hooks';
+
 import { useOneDayChatState } from '../../hooks';
 import { FETCH_LATEST_MESSAGES, POST_MESSAGE } from '../../query';
 
 function MessageInput() {
-  const [message, setMessage] = useState('');
-
   const {
     state: { currentUser, currentChannelId },
   } = useOneDayChatState();
 
-  const [postMessage, { loading, error }] = useMutation(POST_MESSAGE, {
+  const [error, setError] = useState('');
+  const [message, setMessage] = usePersistentState<string>(currentUser, '');
+
+  const [postMessage, postMessageState] = useMutation(POST_MESSAGE, {
     refetchQueries: [FETCH_LATEST_MESSAGES],
+    onCompleted: () => {
+      setError('');
+      setMessage('');
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
   });
 
   const handleSend = () => {
-    postMessage({
-      variables: {
-        channelId: currentChannelId,
-        text: message,
-        userId: currentUser,
-      },
-    });
+    if (message.trim() === '') {
+      return;
+    }
+
+    const payload = {
+      variables: { text: message, userId: currentUser, channelId: currentChannelId },
+    };
+
+    postMessage(payload);
   };
-
-  if (loading) {
-    return <h4>post message loading...</h4>;
-  }
-
-  if (error) {
-    console.log(error);
-  }
 
   return (
     <div className="container">
       <input
         value={message}
-        onChange={(event) => setMessage(event.target.value)}
         placeholder="type your message here..."
+        onChange={(event) => setMessage(event.target.value)}
       />
+      {error && <p>{error}</p>}
       <button onClick={handleSend}>Send Message</button>
 
       <style jsx>{`

@@ -31,7 +31,7 @@ function MessageList() {
       <h4 className="title">{currChannel?.name}</h4>
 
       <div className="message">
-        <button onClick={() => loadMore(true)}>Read More</button>
+        <button onClick={() => loadMore({ old: true })}>Read More</button>
 
         <div className="content">
           {state.messages.map((m) => (
@@ -46,7 +46,7 @@ function MessageList() {
           ))}
         </div>
 
-        <button onClick={() => loadMore(false)}>Read More</button>
+        <button onClick={() => loadMore({ old: false })}>Read More</button>
       </div>
 
       <style jsx>{`
